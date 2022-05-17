@@ -4,7 +4,7 @@ using Arrow
 using Printf
 using TokenizersLite
 
-path = "C:\\Users\\bbdnet2364\\.cache\\huggingface\\datasets\\amazon_reviews_multi\\en\\1.0.0\\"
+path = "path\\to\\amazon_reviews_multi\\en\\1.0.0\\"
 filename = "amazon_reviews_multi-train.arrow"
 
 checksum = readdir(path)[1]
