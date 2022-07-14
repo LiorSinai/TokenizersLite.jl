@@ -33,4 +33,8 @@ export AffixTokenizer, match_prefix, match_suffix, match_affixes
 export load_affixes, load_affix_tokenizer
 export trim_vocab
 
+include("Sentencizer/SentenceSplitter.jl")
+include("Sentencizer/non_breaking_prefixes.jl")
+export RuleBasedSentenceSplitter, split_sentences
+
 end

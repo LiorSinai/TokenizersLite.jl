@@ -1,12 +1,16 @@
 ## TokenizerLite
 
-Basic tokenizers for transformer.
+Basic tokenizers for NLP models.
 
 Two strategies:
 - Byte Pair Encoding
 - Affixes
 
 These tokenizers are used in my TransformersLite repository at [https://github.com/LiorSinai/TransformersLite](https://github.com/LiorSinai/TransformersLite).
+
+Two sentence tokenizers (Sentence Boundary Detection) models:
+- A simple model which uses 1 regex pattern. Will give false positives for acronyms or abbreviations.
+- A more complex model which uses more rules and hard-coded lists to account for non-breaking prefixes. Will give false positives for these prefixes at the end of a sentence. 
 
 ## Byte Pair Encoding
 
