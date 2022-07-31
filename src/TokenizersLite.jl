@@ -13,7 +13,7 @@ abstract type AbstractTokenizer end
 include("utilities.jl")
 include("count_words.jl")
 
-export Update, load_word_counts, load_vocab, count_word_frequencies
+export load_word_counts, load_vocab, count_word_frequencies
 export encode, decode
 
 include("BytePairEncoding/BytePairEncoder.jl")

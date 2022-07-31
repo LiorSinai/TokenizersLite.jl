@@ -1,9 +1,9 @@
 function count_word_frequencies(corpus; max_length::Int, pattern::Regex=r"\w\w+\b")
     word_counts = Dict{String, Tuple{Int, Int}}()
     print(repeat(" ", 100))
-    update = Update(0, max_length, 0.01)
+    progress_bar = ProgressBar(0, max_length, 0.01)
     for idx in 1:max_length
-        update(idx)
+        progress_bar(idx)
         sentence = preprocess(corpus[idx])
         uniques = Set{String}()
         for idxs in findall(pattern, sentence)

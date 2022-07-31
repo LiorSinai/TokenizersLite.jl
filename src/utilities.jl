@@ -1,24 +1,27 @@
 using Printf
 using Unicode
 
-mutable struct Update
+mutable struct ProgressBar
     value::Int
     target::Int
     interval::Float64
 end
 
-function(update::Update)(idx::Int)
-    if (idx < update.value)
+clear_line(io::IO=stdout) = print(io, "\e[2K")
+move_cursor_up_one_line(io::IO=stdout) = print(io, "\e[1G")
+
+function(progress_bar::ProgressBar)(idx::Int)
+    if (idx < progress_bar.value)
         return
     end
-    print("\e[2K") # clear whole line
-    print("\e[1G") # move cursor to column 1
-    frac = min(floor(Int, idx / update.target * 100), 100)
+    clear_line()
+    move_cursor_up_one_line()
+    frac = min(floor(Int, idx / progress_bar.target * 100), 100)
     print(repeat("=", frac), repeat(" ", 100 - frac))
     @printf(" %.2f%% ... ", frac)
-    increment = update.interval * update.target
-    update.value = floor(Int, (floor(Int, idx/increment) + 1) * increment)
-    update.value = min(update.value, update.target)
+    increment = progress_bar.interval * progress_bar.target
+    progress_bar.value = floor(Int, (floor(Int, idx/increment) + 1) * increment)
+    progress_bar.value = min(progress_bar.value, progress_bar.target)
 end
 
 function load_word_counts(filepath)
