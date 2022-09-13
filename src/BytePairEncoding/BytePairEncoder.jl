@@ -48,7 +48,7 @@ function Base.show(io::IO, bpe::BytePairEncoder{T}) where T
 end
 
 """
-    (bpe::BytePairEncoder{T})(x)
+    (bpe)(x)
 
 Encode the given data using the BPE rules. 
 """
@@ -57,7 +57,7 @@ function (bpe::BytePairEncoder{T})(x) where T
 end
 
 """
-    encode(bpe::BytePairEncoder, x)
+    encode(bpe, x)
 
 Encode the given data using the BPE rules. ## indicates a substring token
 """
@@ -85,6 +85,22 @@ function encode(bpe::BytePairEncoder{T}, seq::Vector{T}) where T
     tokens
 end
 
+"""
+    similar(bpe)
+
+Returns a similar BytePairEncoder with an empty cache with minimal size.
+Use `empty!(bpe.cache)` if want to clear the cache without reducing the allocated memory. 
+"""
+function similar(bpe::BytePairEncoder)
+    BytePairEncoder(
+        bpe.symbols,
+        bpe.rules, 
+        Dict{String, Vector{String}}(),
+        bpe.startsym,
+        bpe.endsym,
+        bpe.unksym
+    )
+end
 
 function init_encode(bpe::BytePairEncoder{T}, word::AbstractString) where T
     tokens = map(c-> string(c), collect(word))

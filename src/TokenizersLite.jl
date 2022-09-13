@@ -2,6 +2,7 @@ module TokenizersLite
 
 using DataStructures
 import Base.show
+import Base.similar
 
 struct WordEncoding
     frequency::Int
