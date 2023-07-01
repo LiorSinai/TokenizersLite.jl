@@ -3,9 +3,14 @@ using Arrow
 using Printf
 using TokenizersLite: count_word_frequencies
 
-path = "C:\\Users\\bbdnet2364\\.cache\\huggingface\\datasets\\amazon_reviews_multi\\en\\1.0.0\\"
+if !(isdir("corpus"))
+    mkdir("corpus")
+    println("made driectory: corpus/")
+end
+
+path = "path\\to\\amazon_reviews_multi\\en\\1.0.0\\"
 filename = "amazon_reviews_multi-train.arrow"
-out_filename = "amazon_reviews_train_en.txt"
+out_filename = "corpus/amazon_reviews_train_en.txt"
 min_document_frequency = 10
 
 checksum = readdir(path)[1]

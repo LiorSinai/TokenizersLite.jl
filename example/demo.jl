@@ -3,6 +3,7 @@ using DataFrames
 using Arrow
 using Printf
 using TokenizersLite
+using TokenizersLite: load_vocab
 
 path = "path\\to\\amazon_reviews_multi\\en\\1.0.0\\"
 filename = "amazon_reviews_multi-train.arrow"
@@ -31,13 +32,27 @@ affixer = load_affix_tokenizer(path_vocab)
 idx = 400
 # idx = argmax(df[:, :review_length])
 println(idx)
+
+print("original: ")
 document = df[idx, "review_body"]
 println(document)
+println("")
+
+print("processed: ")
 document = TokenizersLite.preprocess(document) 
 println(document)
+println("")
+
+print("words: ")
 words = map(m->string(m.match), eachmatch(pattern, document))
 println(join(words, "|"))
+println("")
+
+print("BPE tokens: ")
 tokens = bpe(words)
 println(join(tokens, "|"))
+println("")
+
+print("affixer tokens: ")
 tokens = affixer(words)
 println(join(tokens, "|"))

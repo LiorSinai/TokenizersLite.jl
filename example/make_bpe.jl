@@ -1,4 +1,5 @@
 using TokenizersLite
+using TokenizersLite: load_word_counts
 
 in_directory = "corpus/"
 name = "amazon_reviews_train_en" 

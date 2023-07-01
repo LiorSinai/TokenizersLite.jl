@@ -1,4 +1,5 @@
 using TokenizersLite
+using TokenizersLite: load_word_counts, load_vocab, count_word_frequencies
 
 name = "amazon_reviews_train_en"
 path_words = joinpath("corpus/", name * ".txt")
