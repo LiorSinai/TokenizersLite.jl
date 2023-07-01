@@ -3,11 +3,14 @@ module TokenizersLite
 using DataStructures
 import Base.show
 import Base.similar
+import Base.==
 
 struct WordEncoding
     frequency::Int
     tokens::Vector{String}
 end
+
+==(w1::T, w2::T) where T <: WordEncoding = (w1.frequency == w2.frequency) && (w1.tokens == w2.tokens)
 
 abstract type AbstractTokenizer end
 

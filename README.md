@@ -21,7 +21,7 @@ Then it joins all these pairs in the dataset, updates the counts and starts agai
 
 By setting the numbers of joinings (`nrules`) one can control the number of tokens in the final vocabulary.
 
-The implementation here fails with 3 or more overlapping pairs e.g. when two `o`'s are joined in `[m,o,o,o,o,o,n]`.
+The implementation here fails with 3 or more overlapping pairs e.g. when two `o`'s are joined in `[m,o,o,o,o,n]`.
 
 This algorithm was originally developed as a text compression algorithm and its results and applicability to natural language processing (NLP) are not always obvious. It should still be viewed as a text compression algorithm with some words forming out of the process but the smaller tokens cannot be expected to have meaning. 
 
