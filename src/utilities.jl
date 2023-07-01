@@ -24,7 +24,7 @@ function(progress_bar::ProgressBar)(idx::Int)
     progress_bar.value = min(progress_bar.value, progress_bar.target)
 end
 
-function load_word_counts(filepath)
+function load_word_counts(filepath::AbstractString)
     dict = Dict{String, Int}()
     open(filepath, "r") do file
         for line in eachline(file)
@@ -43,7 +43,7 @@ function save_vocab(vocab::Dict, filepath::AbstractString)
     end
 end
 
-function load_vocab(filepath)
+function load_vocab(filepath::AbstractString)
     vocab = String[]
     open(filepath, "r") do file
         for line in eachline(file)
