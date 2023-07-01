@@ -42,12 +42,21 @@ The example folder uses the Amazon Reviews dataset from [HuggingFace](https://hu
 ## Installation
 
 Download the GitHub repository (it is not registered). Then in the Julia repl:
-```
+```Julia
 julia> ] #enter package mode
 (@v1.x) pkg> dev path\\to\\TokenizersLite
 ```
 
 Done. 
+
+## Run
+
+```bash
+julia example/make_corpus.js
+julia example/make_bpe.js
+julia example/make_affixer.js
+julia example/demo.js
+```
 
 ## To do
 
