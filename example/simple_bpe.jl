@@ -1,6 +1,5 @@
-
-using TokernizersLite.BytePairEncoding
-using TokernizersLite.BytePairEncoding: encode_corpus, count_tokens, count_all_pairs!, score_pairs, update!, audit
+using TokenizersLite
+using TokenizersLite: encode_corpus, count_tokens, count_all_pairs!, score_pairs, update!, audit
 
 words = Dict(
     "huggingface" => 1,
