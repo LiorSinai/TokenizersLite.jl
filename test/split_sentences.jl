@@ -102,6 +102,11 @@ end;
     result = split_sentences(splitter, text)
     @test_broken result == expected
 
+    text = "I work at Apple Ltd.. I've been there for 5 years."
+    expected = ["I work at Apple Ltd..", "I've been there for 5 years."]
+    result = split_sentences(splitter, text)
+    @test result == expected
+
     text = "I work at Apple Ltd. I've been there for 5 years."
     expected = ["I work at Apple Ltd.", "I've been there for 5 years."]
     result = split_sentences(splitter, text)
