@@ -23,9 +23,12 @@ docs/site/
 # environment.
 Manifest.toml
 
-### 
+### IDEs
 .vscode
+
+## Jupyter Notebooks
 .ipynb_checkpoints
 
+## data
 outputs/
 corpus/
