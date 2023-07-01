@@ -16,7 +16,7 @@ function learn_bpe(
     for i in 1:nrules
         scores = score_pairs(vocab);
         if isempty(scores)
-            println("Breaking loop at i=$i. No more pairings left.")
+            @warn("Breaking loop at i=$i. No more pairings left.")
             break
         end
         pair = argmax(scores)
@@ -94,7 +94,7 @@ function update!(pair::Tuple, vocab::DefaultDict, corpus::Dict)
             Δ += update_vocab_counts!(vocab, pair, encoding) # update counts after merging in case of multiple merges
         end
     end
-    @assert Δ == vocab[pair] "Δ=$Δ ↔ tokens[$pair]=$(vocab[pair])"
+    @assert Δ == vocab[pair] "Change in frequency for $pair is incorrect: $Δ ↔ $(vocab[pair])"
     vocab[new_pair] = vocab[pair]
     delete!(vocab, pair)
 end
