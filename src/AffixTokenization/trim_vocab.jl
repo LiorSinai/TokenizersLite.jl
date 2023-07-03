@@ -11,7 +11,8 @@ function trim_vocab(vocab::Dict, prefixes::Vector, suffixes::Vector)
     vocab = DefaultDict(0, vocab)
     protected = Set{String}()
     println("Starting trim with $(length(vocab)) words")
-    for (i, word) in enumerate(sort(collect(keys(corpus)), by=x->length(x), rev=true))
+    longest_to_shortest = sort(collect(keys(corpus)), by=x->length(x), rev=true)
+    for (i, word) in enumerate(longest_to_shortest)
         if word in protected
             continue # another word has been split into this word
         end
@@ -37,7 +38,6 @@ function trim_vocab(vocab::Dict, prefixes::Vector, suffixes::Vector)
     println("Ending trim with $(length(vocab)) words including $num_affixes affixes")
     Dict(vocab), corpus
 end
-
 
 function trim_vocab(vocab::Dict)
     prefixes, suffixes = get_default_affixes()

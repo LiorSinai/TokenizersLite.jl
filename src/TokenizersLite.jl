@@ -17,8 +17,6 @@ abstract type AbstractTokenizer end
 include("utilities.jl")
 include("count_words.jl")
 
-export encode, decode
-
 include("BytePairEncoding/BytePairEncoder.jl")
 include("BytePairEncoding/learn.jl")
 include("BytePairEncoding/persist.jl")
@@ -33,7 +31,7 @@ include("AffixTokenization/persist.jl")
 include("AffixTokenization/affixes.jl")
 
 export AffixTokenizer, match_prefix, match_suffix, match_affixes
-export load_affixes, load_affix_tokenizer
+export load_affix_tokenizer
 export trim_vocab
 
 include("Sentencizer/SentenceSplitter.jl")

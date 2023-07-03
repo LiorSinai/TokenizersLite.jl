@@ -53,7 +53,6 @@ function encode(tokenizer::AffixTokenizer, seq::Vector{T}) where T
     tokens
 end
 
-
 function match_affixes(
     word::AbstractString, 
     prefixes::Vector, 
