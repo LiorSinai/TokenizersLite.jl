@@ -1,6 +1,7 @@
 using Test
 using TokenizersLite
 using TokenizersLite: encode_corpus, WordEncoding, count_tokens, count_all_pairs!, score_pairs, update!
+using TokenizersLite: decode
 using DataStructures: DefaultDict
 
 @testset "count pairs" verbose=true begin
@@ -211,7 +212,7 @@ hugging_face_corpus = Dict(
 )
 
 
-@testset "HuggingFace step by step" verbose=true begin
+@testset "HuggingFace step by step" begin
     words = deepcopy(hugging_face_words)
     symbols = deepcopy(hugging_face_symbols)
     corpus = deepcopy(hugging_face_corpus)
@@ -280,7 +281,7 @@ hugging_face_corpus = Dict(
     @test corpus["learning"] == WordEncoding(2, ["⋅le", "##a", "##r", "##n", "##i", "##n", "##g"])
 end
 
-@testset "HuggingFace 5 iters" verbose=true begin
+@testset "HuggingFace 5 iters" begin
     words = deepcopy(hugging_face_words)
     symbols = deepcopy(hugging_face_symbols)
     corpus = deepcopy(hugging_face_corpus)
@@ -358,4 +359,49 @@ end
 
     @test vocab == expected_vocab
     @test corpus == expected_corpus 
+end
+
+@testset "encode" begin
+    bpe = BytePairEncoder(
+        ["⋅a", "⋅b", "##a", "##b", "##c", " "],
+        [("##b", "##c"), ("⋅a", "##b"), ("##b", "##a"), ("##a", "##a"), ("⋅a", "##bc")],
+        Dict{String, Vector{String}}(),
+        "⋅",
+        nothing,
+        "[UNK]"
+    )
+    word = "abc"
+    tokens = bpe(word)
+    expected_tokens = ["⋅abc"]
+    @test tokens == expected_tokens
+    decoded = decode(bpe, tokens)
+    @test decoded == word
+
+    word = "abaa"
+    tokens = bpe(word)
+    expected_tokens = ["⋅ab", "##aa"]
+    @test tokens == expected_tokens
+    decoded = decode(bpe, tokens)
+    @test decoded == word
+
+    word = "aba!bc"
+    tokens = bpe(word)
+    expected_tokens = ["⋅ab", "##a", "[UNK]", "##bc"]
+    @test tokens == expected_tokens
+    decoded = decode(bpe, tokens)
+    @test decoded == "aba[UNK]bc"
+
+    word = "aba bc"
+    tokens = bpe(word)
+    expected_tokens = ["⋅ab", "##a", " ", "##bc"]
+    @test tokens == expected_tokens
+    decoded = decode(bpe, tokens)
+    @test decoded == "aba bc"
+
+    word = "bcca"
+    tokens = bpe(word)
+    expected_tokens = ["⋅b", "##c", "##c", "##a"]
+    @test tokens == expected_tokens
+    decoded = decode(bpe, tokens)
+    @test decoded == word
 end

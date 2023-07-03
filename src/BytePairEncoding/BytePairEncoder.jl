@@ -146,26 +146,19 @@ end
 function decode(bpe::BytePairEncoder{T}, tokens::Vector{String}) where T 
     sentence = ""
     for (idx, token) in enumerate(tokens)
-        if token in bpe.symbols
-            sentence *= token
+        if startswith(token, "##")
+            head = 2
+        elseif length(token) > 1 && !isnothing(bpe.startsym) && startswith(token, bpe.startsym) 
+            head = 1
         else
-            if !isnothing(bpe.startsym) && startswith(token, bpe.startsym)
-                head = 1
-            elseif startswith(token, "##")
-                head = 2
-            else
-                head = 0
-            end
-            if !isnothing(bpe.endsym) && endswith(token, bpe.endsym)
-                tail = 1
-            else
-                tail = 0
-            end
-            if (head < 2) && (idx != 1) 
-                sentence *= " "
-            end
-            sentence *= chop(token, head=head, tail=tail)
+            head = 0
         end
+        if length(token) > 1 && !isnothing(bpe.endsym) && endswith(token, bpe.endsym)
+            tail = 1
+        else
+            tail = 0
+        end
+        sentence *= chop(token, head=head, tail=tail)
     end
     sentence
 end
