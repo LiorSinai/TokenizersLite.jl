@@ -58,28 +58,28 @@ end
     expected_tokens = ["big", "-er"]
     @test tokens == expected_tokens
     decoded = decode(affixer, tokens)
-    @test_broken decoded == word
+    @test decoded == word
 
     word = "puppies"
     tokens = affixer(word)
     expected_tokens = ["pup", "-ies"]
     @test tokens == expected_tokens
     decoded = decode(affixer, tokens)
-    @test_broken decoded == word
+    @test decoded == word
 
     word = "candies"
     tokens = affixer(word)
     expected_tokens = ["candy", "-es"]
     @test tokens == expected_tokens
     decoded = decode(affixer, tokens)
-    @test_broken decoded == word
+    @test decoded == word
 
     word = "baked"
     tokens = affixer(word)
     expected_tokens = ["bake", "-ed"]
     @test tokens == expected_tokens
     decoded = decode(affixer, tokens)
-    @test_broken decoded == word
+    @test decoded == word
 
     word = "bakes"
     tokens = affixer(word)
@@ -93,7 +93,7 @@ end
     expected_tokens = ["bubble", "-ing"]
     @test tokens == expected_tokens
     decoded = decode(affixer, tokens)
-    @test_broken decoded == word
+    @test decoded == word
 end
 
 @testset "prefix + suffix" begin

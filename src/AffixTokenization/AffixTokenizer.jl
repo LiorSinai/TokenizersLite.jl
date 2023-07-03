@@ -100,6 +100,20 @@ function match_suffix(word::AbstractString, suffix::AbstractString, vocab; min_l
     false, word
 end
 
+function decode(tokenizer::AffixTokenizer, tokens::Vector{String})
+    sentence = ""
+    for (idx, token) in enumerate(tokens)
+        if startswith(token, "-")
+            sentence = suffix_reverse_rules(sentence, token[2:end])
+        elseif endswith(token, "-")
+            sentence *= chop(token, head=0, tail=1)
+        else
+            sentence *= token
+        end
+    end
+    sentence
+end
+
 function suffix_rules(word::AbstractString, suffix::AbstractString)
     candidate = chop(word, head=0, tail=length(suffix))
     if length(candidate) < 3
@@ -123,25 +137,24 @@ function suffix_rules(word::AbstractString, suffix::AbstractString)
     [candidate]
 end
 
-function decode(tokenizer::AffixTokenizer, tokens::Vector{String})
-    sentence = ""
-    prev_prefix = false
-    for (idx, token) in enumerate(tokens)
-        if startswith(token, "-")
-            sentence *= chop(token, head=1, tail=0)
-            prev_prefix = false
-        else
-            if (idx != 1) && !prev_prefix
-                sentence *= " "
-            end
-            if endswith(token, "-")
-                sentence *= chop(token, head=0, tail=1)
-                prev_prefix = true
-            else
-                sentence *= token
-                prev_prefix = false
-            end
-        end
+function suffix_reverse_rules(word::AbstractString, suffix::AbstractString)
+    if length(word) < 3
+        return [word]
     end
-    sentence
+    if suffix[1] == 'e' && word[end] == 'y'
+        # y-> i e.g. apply-ed -> applied, berry-es -> berries, candy-es -> candies
+        new_word = chop(word, tail=1) * "i" * suffix
+        return new_word
+    elseif suffix[1] in ['e', 'i'] && (word[end] in ['b', 'g', 'l', 'm', 'n', 'p', 'r', 't', 'v'])
+        # short vowel with double consonant, e.g. big-er -> bigger, hot-est -> hottest, pup-ies -> puppies
+        new_word = word * word[end] * suffix 
+        return new_word 
+    elseif (length(suffix) > 1) && (suffix[1] == word[end] == 'e')
+        # merge e e.g: assume-ed->assume, bake-ed -> baked, bake-er -> baker, complete-ed -> completed
+        return word * suffix[2:end]
+    elseif (length(word) > 1) && (suffix[1] == 'i' && word[end] == 'e')
+        # drop e e.g. activate-ing -> activating, bubble-ing -> bubbling, live-ing -> living
+        return word[1:end-1] * suffix
+    end
+    word * suffix
 end
