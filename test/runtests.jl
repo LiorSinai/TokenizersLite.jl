@@ -8,4 +8,8 @@ end
 @testset "byte pair encoding" verbose=true begin
     include("byte_pair_encoding.jl")
 end
+
+@testset "affixer encoding" verbose=true begin
+    include("affixer.jl")
+end
 ;
