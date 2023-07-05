@@ -4,10 +4,10 @@ function count_word_frequencies(corpus; max_length::Int, pattern::Regex=r"\w\w+\
     progress_bar = ProgressBar(0, max_length, 0.01)
     for idx in 1:max_length
         progress_bar(idx)
-        sentence = preprocess(corpus[idx])
+        text = simplify(corpus[idx])
         uniques = Set{String}()
-        for idxs in findall(pattern, sentence)
-            word = sentence[idxs]
+        for idxs in findall(pattern, text)
+            word = text[idxs]
             if haskey(word_counts, word)
                 term_freq, doc_freq = word_counts[word]
                 if !(word in uniques)
@@ -25,8 +25,7 @@ function count_word_frequencies(corpus; max_length::Int, pattern::Regex=r"\w\w+\
     word_counts
 end
 
-
-function preprocess(s::AbstractString)
+function simplify(s::AbstractString)
     s = lowercase(s)
     s = Unicode.normalize(s, :NFD)
     s = replace(s, r"['`’\u200d\p{M}]" => "") # contractions, zero width joiner and marks from normalization
